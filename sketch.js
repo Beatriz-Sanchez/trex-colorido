@@ -54,10 +54,10 @@ function setup(){
   console.log("T-Rex corredor");
   
   //cria solo
-  solo = createSprite(300,190,1200,20);
+  solo = createSprite(300,250,1200,20);
   //adiciona imagem de solo
   solo.addImage("solo", imagemDoSolo);
-  solo.scale = 0.5;
+  solo.scale = 1.1;
   
   //cria solo invisível
   soloInvisivel = createSprite(300,200,600,40);
