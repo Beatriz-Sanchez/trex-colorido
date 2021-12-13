@@ -122,7 +122,7 @@ function draw(){
   if(estadoJogo === JOGAR){
     
     //faz o T-Rex correr adicionando velocidade ao solo
-    solo.velocityX = -(4 + pontuacao/10);
+    solo.velocityX = -(6 + pontuacao/20);
     //faz o solo voltar ao centro se metade dele sair da tela
     if (solo.x<0){
       solo.x=width/2;
@@ -134,7 +134,7 @@ function draw(){
     }
     
     //T-Rex pula ao apertar espaço
-    if(keyDown('space') && trex.y > height-100 || touches > 0 && trex.y > height-100){
+    if(keyDown('space') && trex.y > height-100 || touches.length > 0 && trex.y > height-100){
       trex.velocityY = -15; 
       somSalto.play();
       touches = [];
@@ -183,7 +183,7 @@ function draw(){
     fimDoJogo.visible = true;
     reiniciar.visible = true;
     
-    if(mousePressedOver(reiniciar) || touches > 0){
+    if(mousePressedOver(reiniciar) || touches.length > 0){
       reinicie();
       touches = [];
     }
@@ -216,7 +216,7 @@ function gerarObstaculos(){
   //criar sprite de obstáculo a cada 60 quadros
   if(frameCount %60 === 0){
     obstaculo = createSprite(width+30,height-50,10,40);
-    obstaculo.velocityX= -(6+ pontuacao/10);
+    obstaculo.velocityX= -(6+ pontuacao/20);
   
     //adicionar imagem ao obstaculo aleatoriamente
     var rand = Math.round(random(1,4));
