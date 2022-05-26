@@ -54,17 +54,17 @@ function setup(){
   console.log("T-Rex corredor");
   
   //cria solo
-  solo = createSprite(width/2,height+50,width*2,20);
+  solo = createSprite(windowWidth/2,windowHeight+50,1200,20);
   //adiciona imagem de solo
   solo.addImage("solo", imagemDoSolo);
   solo.scale = 1.1;
   
   //cria solo invisível
-  soloInvisivel = createSprite(300,height,600,40);
+  soloInvisivel = createSprite(300,windowHeight,600,40);
   soloInvisivel.visible = false;
   
   //cria sprite do T-Rex
-  trex = createSprite(50,height-90,20,50);
+  trex = createSprite(50,windowHeight-90,20,50);
   trex.scale = 0.1;
   trex.x = 50;
   //adiciona a animação de T-Rex correndo ao sprite
@@ -80,10 +80,10 @@ function setup(){
   grupoDeNuvens = new Group();
   
   //adicionar e ajustar imagens do fim
-  fimDoJogo = createSprite(width/2,height/2-20,400,20);
+  fimDoJogo = createSprite(windowWidth/2,windowHeight/2-20,400,20);
   fimDoJogo.addImage(imagemFimDoJogo);
 
-  reiniciar = createSprite(width/2,height/2+20);
+  reiniciar = createSprite(windowWidth/2,windowHeight/2+20);
   reiniciar.addImage(imagemReiniciar);
 
   fimDoJogo.scale = 0.5;
@@ -97,7 +97,7 @@ function setup(){
   //para Trex inteligente
   //trex.setCollider("rectangle",250,0);
   
-  sol = createSprite(width-70,30,10,10);
+  sol = createSprite(windowWidth-70,30,10,10);
   sol.addImage(imagemDoSol);
   sol.scale = 0.1;
   sol.depth = 1;
@@ -122,26 +122,26 @@ function draw(){
   if(estadoJogo === JOGAR){
     
     //faz o T-Rex correr adicionando velocidade ao solo
-    solo.velocityX = -(6 + pontuacao/20);
+    solo.velocityX = -(6+ pontuacao*3/100);
     //faz o solo voltar ao centro se metade dele sair da tela
     if (solo.x<0){
-      solo.x=width/2;
+      solo.x=600/2;
     }
     
     //som a cada 100 pontos
     if(pontuacao>0 && pontuacao%100 === 0){
-      somCheckPoint.play();
+        somCheckPoint.play();
     }
     
     //T-Rex pula ao apertar espaço
-    if(keyDown('space') && trex.y > height-100 || touches.length > 0 && trex.y > height-100){
+    if(keyDown('space') && trex.y>windowHeight-100 || touches.length > 0 && trex.y>windowHeight-100){
       trex.velocityY = -15; 
       somSalto.play();
       touches = [];
     }
     
     //gravidade
-    trex.velocityY = trex.velocityY + 1;
+    trex.velocityY = trex.velocityY + 0.7;
     
     //gerar nuvens
     gerarNuvens();
@@ -183,7 +183,7 @@ function draw(){
     fimDoJogo.visible = true;
     reiniciar.visible = true;
     
-    if(mousePressedOver(reiniciar) || touches.length > 0){
+    if(mousePressedOver(reiniciar)|| touches.length > 0){
       reinicie();
       touches = [];
     }
@@ -195,18 +195,18 @@ function draw(){
 function gerarNuvens(){
   //gerar sprites de nuvem a cada 60 quadros, com posição Y aleatória
   if(frameCount %100 === 0){
-    nuvem = createSprite(width+30,100,40,10);
-    nuvem.y = Math.round(random(30,height-120));
+    nuvem = createSprite(windowWidth,100,40,10);
+    nuvem.y = Math.round(random(30,windowHeight-110));
     //atribuir imagem de nuvem e adequar escala
     nuvem.addImage(imagemDaNuvem);
-    nuvem.scale =0.4;
+    nuvem.scale =0.25;
     //ajustar profundidade da nuvem
     nuvem.depth = trex.depth;
     trex.depth = trex.depth +1;
     //dar velocidade e direção à nuvem
     nuvem.velocityX=-3;
     //dar tempo de vida à nuvem
-    nuvem.lifetime = width/nuvem.velocityX+20;
+    nuvem.lifetime = 220;
     //adicionar a um grupo
     grupoDeNuvens.add(nuvem);
   }
@@ -215,8 +215,8 @@ function gerarNuvens(){
 function gerarObstaculos(){
   //criar sprite de obstáculo a cada 60 quadros
   if(frameCount %60 === 0){
-    obstaculo = createSprite(width+30,height-50,10,40);
-    obstaculo.velocityX= -(6+ pontuacao/20);
+    obstaculo = createSprite(windowWidth,windowHeight-60,10,40);
+    obstaculo.velocityX= -(6+ pontuacao*3/100);
   
     //adicionar imagem ao obstaculo aleatoriamente
     var rand = Math.round(random(1,4));
@@ -233,7 +233,7 @@ function gerarObstaculos(){
     }
     //atribuir escala e tempo de vida aos obstáculos
     obstaculo.scale = 0.5;
-    obstaculo.lifetime = width/obstaculo.velocityX + 10;
+    obstaculo.lifetime = 300;
     //ajustar profundidade da nuvem
     obstaculo.depth = trex.depth;
     trex.depth = trex.depth +1;
